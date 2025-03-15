@@ -6,8 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -21,6 +21,7 @@ class PersonRepositoryAdapter implements PersonRepositoryPort {
         this.personEntityMapper = personEntityMapper;
     }
 
+    @Transactional
     @Override
     public void savePerson(Person person) {
         PersonEntity entity = personEntityMapper.toEntity(person);

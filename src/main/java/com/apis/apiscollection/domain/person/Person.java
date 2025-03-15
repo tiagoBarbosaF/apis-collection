@@ -1,11 +1,11 @@
 package com.apis.apiscollection.domain.person;
 
 public class Person {
-    private long id;
-    private String name;
-    private String cpf;
-    private String email;
-    private String phone;
+    private final long id;
+    private final String name;
+    private final String cpf;
+    private final String email;
+    private final String phone;
 
     private Person(Builder builder) {
         cpf = builder.cpf;
@@ -33,6 +33,16 @@ public class Person {
 
     public String getPhone() {
         return phone;
+    }
+
+    public Person updatePerson(Person person) {
+        return Person.builder()
+                .id(this.id)
+                .name(person.getName())
+                .cpf(person.getCpf())
+                .email(person.getEmail())
+                .phone(person.getPhone())
+                .build();
     }
 
     public static Builder builder() {

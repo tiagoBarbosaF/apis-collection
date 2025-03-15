@@ -10,6 +10,7 @@ class PersonEntityMapper {
         if (person == null) return null;
 
         return PersonEntity.builder()
+                .id(person.getId() != 0 ? person.getId() : null)
                 .name(person.getName())
                 .cpf(person.getCpf())
                 .email(person.getEmail())

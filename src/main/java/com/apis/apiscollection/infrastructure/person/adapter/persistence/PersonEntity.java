@@ -25,6 +25,7 @@ public class PersonEntity {
     }
 
     private PersonEntity(Builder builder) {
+        id = builder.id;
         cpf = builder.cpf;
         name = builder.name;
         email = builder.email;
@@ -56,12 +57,18 @@ public class PersonEntity {
     }
 
     public static final class Builder {
+        private Long id;
         private String cpf;
         private String name;
         private String email;
         private String phone;
 
         public Builder() {
+        }
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
         }
 
         public Builder cpf(String val) {
