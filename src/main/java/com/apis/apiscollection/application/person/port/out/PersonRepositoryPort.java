@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 
 public interface PersonRepositoryPort {
     void savePerson(Person person);
+    void deletePerson(long id);
     Person findPersonById (long id);
     Page<Person> findAllPersons(int page, int pageSize);
 }

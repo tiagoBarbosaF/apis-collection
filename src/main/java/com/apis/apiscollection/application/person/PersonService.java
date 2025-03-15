@@ -41,6 +41,11 @@ public class PersonService implements PersonUseCase {
     }
 
     @Override
+    public void deletePerson(long id) {
+        personRepositoryPort.deletePerson(id);
+    }
+
+    @Override
     public PersonResponse findPersonById(long id) {
         Person personById = personRepositoryPort.findPersonById(id);
         return this.convertDomainToResponse(personById);

@@ -28,6 +28,12 @@ class PersonRepositoryAdapter implements PersonRepositoryPort {
         personRepository.save(entity);
     }
 
+    @Transactional
+    @Override
+    public void deletePerson(long id) {
+        personRepository.deleteById(id);
+    }
+
     @Override
     public Person findPersonById(long id) {
         Optional<PersonEntity> personById = personRepository.findById(id);

@@ -69,7 +69,7 @@ public class PersonController {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content(mediaType = "application/json"))
     })
-    public ResponseEntity<PersonResponse> getPerson(@RequestParam int id) {
+    public ResponseEntity<PersonResponse> getPerson(@RequestParam long id) {
         PersonResponse response = personUseCase.findPersonById(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -90,5 +90,20 @@ public class PersonController {
         return response != null
                 ? ResponseEntity.status(HttpStatus.OK).body(response)
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
+
+    @DeleteMapping
+    @Operation(summary = "Delete person", description = "Delete person by ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "No content",
+            content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400", description = "Bad request",
+            content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+            content = @Content(mediaType = "application/json")),
+    })
+    public ResponseEntity<Void> deletePerson(@RequestParam long id) {
+        personUseCase.deletePerson(id);
+        return ResponseEntity.noContent().build();
     }
 }
