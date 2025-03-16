@@ -1,6 +1,9 @@
 package com.apis.apiscollection.infrastructure.person.adapter.persistence;
 
+import com.apis.apiscollection.infrastructure.address.adapter.persistence.AddressEntity;
 import jakarta.persistence.*;
+
+import java.util.*;
 
 @Entity
 @Table(name = "person")
@@ -21,23 +24,19 @@ public class PersonEntity {
     @Column(name = "phone")
     private String phone;
 
-    protected PersonEntity() {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person", orphanRemoval = true)
+    private List<AddressEntity> addresses;
+
+    public PersonEntity() {
     }
 
     private PersonEntity(Builder builder) {
         id = builder.id;
-        cpf = builder.cpf;
         name = builder.name;
+        cpf = builder.cpf;
         email = builder.email;
         phone = builder.phone;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public String getEmail() {
-        return email;
+        addresses = builder.addresses;
     }
 
     public Long getId() {
@@ -48,8 +47,20 @@ public class PersonEntity {
         return name;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     public String getPhone() {
         return phone;
+    }
+
+    public List<AddressEntity> getAddresses() {
+        return addresses;
     }
 
     public static Builder builder() {
@@ -62,22 +73,23 @@ public class PersonEntity {
         private String name;
         private String email;
         private String phone;
+        private List<AddressEntity> addresses;
 
         public Builder() {
         }
 
-        public Builder id(Long id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder cpf(String val) {
-            cpf = val;
+        public Builder id(Long val) {
+            id = val;
             return this;
         }
 
         public Builder name(String val) {
             name = val;
+            return this;
+        }
+
+        public Builder cpf(String val) {
+            cpf = val;
             return this;
         }
 
@@ -88,6 +100,11 @@ public class PersonEntity {
 
         public Builder phone(String val) {
             phone = val;
+            return this;
+        }
+
+        public Builder addresses(List<AddressEntity> val) {
+            addresses = val;
             return this;
         }
 

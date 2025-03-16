@@ -1,5 +1,6 @@
 package com.apis.apiscollection.application.person.port.in;
 
+import com.apis.apiscollection.application.address.dto.AddressResponse;
 import com.apis.apiscollection.application.person.dto.MessageResponse;
 import com.apis.apiscollection.application.person.dto.PersonRequest;
 import com.apis.apiscollection.application.person.dto.PersonResponse;
@@ -11,4 +12,6 @@ public interface PersonUseCase {
     void deletePerson(long id);
     PersonResponse findPersonById(long id);
     Page<PersonResponse> findAllPersons(int page, int pageSize);
+
+    AddressResponse findAddressById(long personId, long addressId);
 }

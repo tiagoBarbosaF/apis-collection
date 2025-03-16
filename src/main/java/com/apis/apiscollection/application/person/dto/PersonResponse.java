@@ -1,11 +1,16 @@
 package com.apis.apiscollection.application.person.dto;
 
+import com.apis.apiscollection.domain.address.Address;
+
+import java.util.List;
+
 public record PersonResponse(
         long id,
         String name,
         String cpf,
         String email,
-        String phone
+        String phone,
+        List<Address> addresses
 ) {
 
     public static Builder builder() {
@@ -18,6 +23,7 @@ public record PersonResponse(
         private String name;
         private String email;
         private String phone;
+        private List<Address> addresses;
 
         public Builder() {
         }
@@ -47,13 +53,19 @@ public record PersonResponse(
             return this;
         }
 
+        public Builder address(List<Address>  val) {
+            addresses = val;
+            return this;
+        }
+
         public PersonResponse build() {
             return new PersonResponse(
                     this.id,
                     this.name,
                     this.cpf,
                     this.email,
-                    this.phone
+                    this.phone,
+                    this.addresses
             );
         }
     }

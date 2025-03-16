@@ -1,11 +1,16 @@
 package com.apis.apiscollection.domain.person;
 
+import com.apis.apiscollection.domain.address.Address;
+
+import java.util.List;
+
 public class Person {
-    private final long id;
+    private final Long id;
     private final String name;
     private final String cpf;
     private final String email;
     private final String phone;
+    private final List<Address> address;
 
     private Person(Builder builder) {
         cpf = builder.cpf;
@@ -13,6 +18,7 @@ public class Person {
         name = builder.name;
         email = builder.email;
         phone = builder.phone;
+        address = builder.address;
     }
 
     public String getCpf() {
@@ -23,7 +29,7 @@ public class Person {
         return email;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -33,6 +39,10 @@ public class Person {
 
     public String getPhone() {
         return phone;
+    }
+
+    public List<Address> getAddress() {
+        return address;
     }
 
     public Person updatePerson(Person person) {
@@ -51,12 +61,13 @@ public class Person {
 
     public static final class Builder {
         private String cpf;
-        private long id;
+        private Long id;
         private String name;
         private String email;
         private String phone;
+        private List<Address> address;
 
-        public Builder() {
+        private Builder() {
         }
 
         public Builder cpf(String val) {
@@ -64,7 +75,7 @@ public class Person {
             return this;
         }
 
-        public Builder id(long val) {
+        public Builder id(Long val) {
             id = val;
             return this;
         }
@@ -81,6 +92,11 @@ public class Person {
 
         public Builder phone(String val) {
             phone = val;
+            return this;
+        }
+
+        public Builder address(List<Address> val) {
+            address = val;
             return this;
         }
 

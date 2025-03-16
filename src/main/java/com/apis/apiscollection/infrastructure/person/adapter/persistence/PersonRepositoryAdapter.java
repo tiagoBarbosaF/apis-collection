@@ -1,7 +1,10 @@
 package com.apis.apiscollection.infrastructure.person.adapter.persistence;
 
 import com.apis.apiscollection.application.person.port.out.PersonRepositoryPort;
+import com.apis.apiscollection.domain.address.Address;
 import com.apis.apiscollection.domain.person.Person;
+import com.apis.apiscollection.infrastructure.address.adapter.persistence.AddressEntityMapper;
+import com.apis.apiscollection.infrastructure.address.adapter.persistence.AddressRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,11 +16,14 @@ import java.util.Optional;
 @Component
 class PersonRepositoryAdapter implements PersonRepositoryPort {
     private final PersonRepository personRepository;
+    private final AddressRepository addressRepository;
     private final PersonEntityMapper personEntityMapper;
 
     public PersonRepositoryAdapter(PersonRepository personRepository,
+                                   AddressRepository addressRepository,
                                    PersonEntityMapper personEntityMapper) {
         this.personRepository = personRepository;
+        this.addressRepository = addressRepository;
         this.personEntityMapper = personEntityMapper;
     }
 
@@ -44,5 +50,12 @@ class PersonRepositoryAdapter implements PersonRepositoryPort {
     public Page<Person> findAllPersons(int page, int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
         return personRepository.findAll(pageable).map(personEntityMapper::toDomain);
+    }
+
+    @Override
+    public Address findAddressById(Long personId, Long addressId) {
+        return addressRepository.findByIdAndPersonId(addressId, personId)
+                .map(AddressEntityMapper::entityToDomain)
+                .orElseThrow(() -> new RuntimeException("Address not found."));
     }
 }

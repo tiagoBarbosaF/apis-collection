@@ -1,5 +1,6 @@
 package com.apis.apiscollection.infrastructure.person.adapter.rest;
 
+import com.apis.apiscollection.application.address.dto.AddressResponse;
 import com.apis.apiscollection.application.person.dto.MessageResponse;
 import com.apis.apiscollection.application.person.dto.PersonRequest;
 import com.apis.apiscollection.application.person.dto.PersonResponse;
@@ -45,11 +46,11 @@ public class PersonController {
     @Operation(summary = "Update person", description = "Update a person using id and new information.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Successfully",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageResponse.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageResponse.class))),
             @ApiResponse(responseCode = "400", description = "Invalid request body or id.",
-            content = @Content(mediaType = "application/json")),
+                    content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "500", description = "Internal server error.",
-            content = @Content(mediaType = "application/json")),
+                    content = @Content(mediaType = "application/json")),
     })
     public ResponseEntity<MessageResponse> update(@RequestParam long id,
                                                   @RequestBody @Valid PersonRequest request) {
@@ -96,14 +97,33 @@ public class PersonController {
     @Operation(summary = "Delete person", description = "Delete person by ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "No content",
-            content = @Content(mediaType = "application/json")),
+                    content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "400", description = "Bad request",
-            content = @Content(mediaType = "application/json")),
+                    content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "500", description = "Internal server error",
-            content = @Content(mediaType = "application/json")),
+                    content = @Content(mediaType = "application/json")),
     })
     public ResponseEntity<Void> deletePerson(@RequestParam long id) {
         personUseCase.deletePerson(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/address/id")
+    @Operation(summary = "Get an address", description = "Find an address using the ID reference and person ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = AddressResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid ID",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = "application/json"))
+    })
+    public ResponseEntity<AddressResponse> getAddressById(@RequestParam(name = "person_id") long person_id,
+                                                          @RequestParam(name = "address_id") long address_id) {
+        AddressResponse response = personUseCase.findAddressById(person_id, address_id);
+        return response != null
+                ? ResponseEntity.status(HttpStatus.OK).body(response)
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 }
