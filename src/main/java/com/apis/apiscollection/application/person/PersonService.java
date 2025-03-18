@@ -1,5 +1,6 @@
 package com.apis.apiscollection.application.person;
 
+import com.apis.apiscollection.application.address.dto.AddressRequest;
 import com.apis.apiscollection.application.address.dto.AddressResponse;
 import com.apis.apiscollection.application.address.mapper.AddressMapper;
 import com.apis.apiscollection.application.person.dto.MessageResponse;
@@ -30,7 +31,7 @@ public class PersonService implements PersonUseCase {
     }
 
     @Override
-    public MessageResponse updatePerson(long id, PersonRequest request) {
+    public MessageResponse updatePerson(Long id, PersonRequest request) {
         Person personFind = personRepositoryPort.findPersonById(id);
         Person requestConverted = PersonMapper.convertRequestToDomain(request);
         Person person = personFind.updatePerson(requestConverted);
@@ -40,12 +41,12 @@ public class PersonService implements PersonUseCase {
     }
 
     @Override
-    public void deletePerson(long id) {
+    public void deletePerson(Long id) {
         personRepositoryPort.deletePerson(id);
     }
 
     @Override
-    public PersonResponse findPersonById(long id) {
+    public PersonResponse findPersonById(Long id) {
         Person personById = personRepositoryPort.findPersonById(id);
         return PersonMapper.convertDomainToResponse(personById);
     }
@@ -57,8 +58,22 @@ public class PersonService implements PersonUseCase {
     }
 
     @Override
-    public AddressResponse findAddressById(long personId, long addressId) {
-        Address addressById = personRepositoryPort.findAddressById(personId, addressId);
+    public AddressResponse findAddressById(Long personId, Long addressId) {
+        Address addressById = getPersonAddressById(personId, addressId);
         return AddressMapper.convertDomainToResponse(addressById);
+    }
+
+    @Override
+    public MessageResponse updatePersonAddress(Long personId, Long addressId, AddressRequest addressRequest) {
+        Person personById = personRepositoryPort.findPersonById(personId);
+        Address addressConverted = PersonMapper.convertRequestToAddress(addressRequest);
+        Person personUpdated = personById.addAddress(addressConverted);
+        personRepositoryPort.savePerson(personUpdated);
+
+        return new MessageResponse("Person address updated");
+    }
+
+    private Address getPersonAddressById(Long personId, Long addressId) {
+        return personRepositoryPort.findAddressById(personId, addressId);
     }
 }

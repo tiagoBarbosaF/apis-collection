@@ -58,4 +58,9 @@ class PersonRepositoryAdapter implements PersonRepositoryPort {
                 .map(AddressEntityMapper::entityToDomain)
                 .orElseThrow(() -> new RuntimeException("Address not found."));
     }
+
+    @Override
+    public void saveAddress(Address address) {
+
+    }
 }

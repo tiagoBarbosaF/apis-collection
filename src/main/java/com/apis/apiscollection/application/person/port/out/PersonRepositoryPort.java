@@ -11,4 +11,5 @@ public interface PersonRepositoryPort {
     Page<Person> findAllPersons(int page, int pageSize);
 
     Address findAddressById(Long personId, Long addressId);
+    void saveAddress(Address address);
 }

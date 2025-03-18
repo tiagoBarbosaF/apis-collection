@@ -1,8 +1,12 @@
 package com.apis.apiscollection.infrastructure.person.adapter.persistence;
 
+import com.apis.apiscollection.domain.address.Address;
 import com.apis.apiscollection.domain.person.Person;
+import com.apis.apiscollection.infrastructure.address.adapter.persistence.AddressEntity;
 import com.apis.apiscollection.infrastructure.address.adapter.persistence.AddressEntityMapper;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
 
 @Component
 class PersonEntityMapper {
@@ -10,14 +14,21 @@ class PersonEntityMapper {
     public PersonEntity toEntity(Person person) {
         if (person == null) return null;
 
-        return PersonEntity.builder()
+        PersonEntity entity = PersonEntity.builder()
                 .id(person.getId())
                 .name(person.getName())
                 .cpf(person.getCpf())
                 .email(person.getEmail())
                 .phone(person.getPhone())
-                .addresses(person.getAddress().stream().map(AddressEntityMapper::domainToEntity).toList())
+                .addresses(new ArrayList<>())
                 .build();
+        for (Address address : person.getAddress()) {
+            AddressEntity addressEntity = AddressEntityMapper.domainToEntity(address);
+            addressEntity.setPerson(entity);
+            entity.getAddresses().add(addressEntity);
+        }
+
+        return entity;
     }
 
     public Person toDomain(PersonEntity personEntity) {

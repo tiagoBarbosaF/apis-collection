@@ -1,5 +1,6 @@
 package com.apis.apiscollection.infrastructure.person.adapter.rest;
 
+import com.apis.apiscollection.application.address.dto.AddressRequest;
 import com.apis.apiscollection.application.address.dto.AddressResponse;
 import com.apis.apiscollection.application.person.dto.MessageResponse;
 import com.apis.apiscollection.application.person.dto.PersonRequest;
@@ -52,11 +53,11 @@ public class PersonController {
             @ApiResponse(responseCode = "500", description = "Internal server error.",
                     content = @Content(mediaType = "application/json")),
     })
-    public ResponseEntity<MessageResponse> update(@RequestParam long id,
+    public ResponseEntity<MessageResponse> update(@RequestParam Long id,
                                                   @RequestBody @Valid PersonRequest request) {
         MessageResponse response = personUseCase.updatePerson(id, request);
         return response != null
-                ? ResponseEntity.status(HttpStatus.OK).body(response)
+                ? ResponseEntity.status(HttpStatus.NO_CONTENT).body(response)
                 : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
@@ -125,5 +126,24 @@ public class PersonController {
         return response != null
                 ? ResponseEntity.status(HttpStatus.OK).body(response)
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
+
+    @PutMapping("/address")
+    @Operation(summary = "Update person address", description = "Update a person address using id and new information.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Successfully",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request body or id.",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Internal server error.",
+                    content = @Content(mediaType = "application/json")),
+    })
+    public ResponseEntity<MessageResponse> updatePersonAddress(@RequestParam(name = "person_id") Long person_id,
+                                                               @RequestParam(name = "address_id") Long address_id,
+                                                               @RequestBody @Valid AddressRequest request) {
+        MessageResponse response = personUseCase.updatePersonAddress(person_id, address_id, request);
+        return response != null
+                ? ResponseEntity.status(HttpStatus.NO_CONTENT).body(response)
+                : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 }

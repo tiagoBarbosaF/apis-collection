@@ -2,6 +2,7 @@ package com.apis.apiscollection.domain.person;
 
 import com.apis.apiscollection.domain.address.Address;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Person {
@@ -52,6 +53,21 @@ public class Person {
                 .cpf(person.getCpf())
                 .email(person.getEmail())
                 .phone(person.getPhone())
+                .build();
+    }
+
+    public Person addAddress(Address newAddress) {
+        if(address == null) throw new NullPointerException("Address cannot be null");
+
+        List<Address> updateAddresses = new ArrayList<>(this.address);
+        updateAddresses.add(newAddress);
+        return Person.builder()
+                .id(this.id)
+                .name(this.name)
+                .cpf(this.cpf)
+                .email(this.email)
+                .phone(this.phone)
+                .address(updateAddresses)
                 .build();
     }
 
