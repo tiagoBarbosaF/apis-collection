@@ -131,6 +131,24 @@ public class PersonController {
     @PostMapping("/address")
     @Operation(summary = "Add a new person address", description = "Add a new a person address using id and new information.")
     @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Created",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request body or id.",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Internal server error.",
+                    content = @Content(mediaType = "application/json")),
+    })
+    public ResponseEntity<MessageResponse> addNewPersonAddress(@RequestParam(name = "person_id") Long person_id,
+                                                               @RequestBody @Valid AddressRequest request) {
+        MessageResponse response = personUseCase.addNewPersonAddress(person_id, request);
+        return response != null
+                ? ResponseEntity.status(HttpStatus.NO_CONTENT).body(response)
+                : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    }
+
+    @PutMapping("/address")
+    @Operation(summary = "Update person address", description = "Update a person address using id and new information.")
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageResponse.class))),
             @ApiResponse(responseCode = "400", description = "Invalid request body or id.",
@@ -139,10 +157,27 @@ public class PersonController {
                     content = @Content(mediaType = "application/json")),
     })
     public ResponseEntity<MessageResponse> updatePersonAddress(@RequestParam(name = "person_id") Long person_id,
+                                                               @RequestParam(name = "address_id") Long address_id,
                                                                @RequestBody @Valid AddressRequest request) {
-        MessageResponse response = personUseCase.updatePersonAddress(person_id, request);
+        MessageResponse response = personUseCase.updatePersonAddress(person_id, address_id, request);
         return response != null
-                ? ResponseEntity.status(HttpStatus.NO_CONTENT).body(response)
+                ? ResponseEntity.status(HttpStatus.CREATED).body(response)
                 : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    }
+
+    @DeleteMapping("address")
+    @Operation(summary = "Delete person address", description = "Delete person address by ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "No content",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400", description = "Bad request",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = "application/json")),
+    })
+    public ResponseEntity<Void> deletePersonAddress(@RequestParam(name = "address_id") Long address_id,
+                                                    @RequestParam(name = "person_id") Long person_id) {
+        personUseCase.deletePersonAddress(address_id, person_id);
+        return ResponseEntity.noContent().build();
     }
 }

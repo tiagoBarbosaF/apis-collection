@@ -50,17 +50,17 @@ public class PersonMapper {
                 .build();
     }
 
-    public static Address convertRequestToAddress(AddressRequest response) {
+    public static Address convertRequestToAddress(AddressRequest request) {
         return Address.builder()
-                .street(response.street())
-                .number(response.number())
-                .complement(response.complement())
-                .neighborhood(response.neighborhood())
-                .city(response.city())
-                .state(response.state())
-                .postalCode(response.postalCode())
-                .country(response.country())
-                .createdAt(response.createdAt())
+                .street(request.street())
+                .number(request.number())
+                .complement(request.complement())
+                .neighborhood(request.neighborhood())
+                .city(request.city())
+                .state(request.state())
+                .postalCode(request.postalCode())
+                .country(request.country())
+                .createdAt(request.createdAt())
                 .build();
     }
 }

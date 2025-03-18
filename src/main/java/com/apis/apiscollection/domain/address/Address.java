@@ -85,6 +85,7 @@ public class Address {
                 .state(newAddress.getState())
                 .postalCode(newAddress.getPostalCode())
                 .country(newAddress.getCountry())
+                .createdAt(this.createdAt)
                 .build();
     }
 

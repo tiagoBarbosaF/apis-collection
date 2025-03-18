@@ -54,6 +54,7 @@ public class Person {
                 .cpf(person.getCpf())
                 .email(person.getEmail())
                 .phone(person.getPhone())
+                .address(person.getAddress())
                 .build();
     }
 
@@ -69,6 +70,17 @@ public class Person {
                 .email(this.email)
                 .phone(this.phone)
                 .address(updateAddresses)
+                .build();
+    }
+    
+    public Person updateAddress(List<Address> newAddress) {
+        return Person.builder()
+                .id(this.id)
+                .name(this.name)
+                .cpf(this.cpf)
+                .email(this.email)
+                .phone(this.phone)
+                .address(newAddress)
                 .build();
     }
 

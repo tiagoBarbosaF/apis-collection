@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface AddressRepository extends JpaRepository<AddressEntity, Long> {
 
     Optional<AddressEntity> findByIdAndPersonId(Long addressId, Long personId);
+
+    void deleteByIdAndPersonId(Long id, Long personId);
 }

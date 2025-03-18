@@ -36,12 +36,12 @@ class PersonRepositoryAdapter implements PersonRepositoryPort {
 
     @Transactional
     @Override
-    public void deletePerson(long id) {
+    public void deletePerson(Long id) {
         personRepository.deleteById(id);
     }
 
     @Override
-    public Person findPersonById(long id) {
+    public Person findPersonById(Long id) {
         Optional<PersonEntity> personById = personRepository.findById(id);
         return personById.map(personEntityMapper::toDomain).orElse(null);
     }
@@ -59,8 +59,9 @@ class PersonRepositoryAdapter implements PersonRepositoryPort {
                 .orElseThrow(() -> new RuntimeException("Address not found."));
     }
 
+    @Transactional
     @Override
-    public void saveAddress(Address address) {
-
+    public void deletePersonAddressById(Long addressId, Long personId) {
+        addressRepository.deleteByIdAndPersonId(addressId, personId);
     }
 }
