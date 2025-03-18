@@ -128,8 +128,8 @@ public class PersonController {
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
-    @PutMapping("/address")
-    @Operation(summary = "Update person address", description = "Update a person address using id and new information.")
+    @PostMapping("/address")
+    @Operation(summary = "Add a new person address", description = "Add a new a person address using id and new information.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Successfully",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageResponse.class))),
@@ -139,9 +139,8 @@ public class PersonController {
                     content = @Content(mediaType = "application/json")),
     })
     public ResponseEntity<MessageResponse> updatePersonAddress(@RequestParam(name = "person_id") Long person_id,
-                                                               @RequestParam(name = "address_id") Long address_id,
                                                                @RequestBody @Valid AddressRequest request) {
-        MessageResponse response = personUseCase.updatePersonAddress(person_id, address_id, request);
+        MessageResponse response = personUseCase.updatePersonAddress(person_id, request);
         return response != null
                 ? ResponseEntity.status(HttpStatus.NO_CONTENT).body(response)
                 : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);

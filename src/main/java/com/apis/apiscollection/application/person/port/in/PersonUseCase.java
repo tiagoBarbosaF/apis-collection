@@ -15,5 +15,5 @@ public interface PersonUseCase {
     Page<PersonResponse> findAllPersons(int page, int pageSize);
 
     AddressResponse findAddressById(Long personId, Long addressId);
-    MessageResponse updatePersonAddress(Long personId, Long addressId, AddressRequest addressRequest);
+    MessageResponse updatePersonAddress(Long personId, AddressRequest addressRequest);
 }

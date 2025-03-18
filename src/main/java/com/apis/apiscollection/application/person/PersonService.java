@@ -48,13 +48,15 @@ public class PersonService implements PersonUseCase {
     @Override
     public PersonResponse findPersonById(Long id) {
         Person personById = personRepositoryPort.findPersonById(id);
-        return PersonMapper.convertDomainToResponse(personById);
+        Person personUpdated = personById.sortedAddressDesc(personById.getAddress());
+        return PersonMapper.convertDomainToResponse(personUpdated);
     }
 
     @Override
     public Page<PersonResponse> findAllPersons(int page, int pageSize) {
         Page<Person> allPersons = personRepositoryPort.findAllPersons(page, pageSize);
-        return allPersons.map(PersonMapper::convertDomainToResponse);
+        return allPersons.map(person ->
+                        PersonMapper.convertDomainToResponse(person.sortedAddressDesc(person.getAddress())));
     }
 
     @Override
@@ -64,7 +66,7 @@ public class PersonService implements PersonUseCase {
     }
 
     @Override
-    public MessageResponse updatePersonAddress(Long personId, Long addressId, AddressRequest addressRequest) {
+    public MessageResponse updatePersonAddress(Long personId, AddressRequest addressRequest) {
         Person personById = personRepositoryPort.findPersonById(personId);
         Address addressConverted = PersonMapper.convertRequestToAddress(addressRequest);
         Person personUpdated = personById.addAddress(addressConverted);

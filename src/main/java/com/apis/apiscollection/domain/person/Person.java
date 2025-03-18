@@ -3,6 +3,7 @@ package com.apis.apiscollection.domain.person;
 import com.apis.apiscollection.domain.address.Address;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Person {
@@ -69,6 +70,20 @@ public class Person {
                 .phone(this.phone)
                 .address(updateAddresses)
                 .build();
+    }
+
+    public Person sortedAddressDesc(List<Address> addressesSorted) {
+            List<Address> addressSortedDesc = addressesSorted.stream()
+                    .sorted(Comparator.comparing(Address::getCreatedAt).reversed())
+                    .toList();
+            return Person.builder()
+                    .id(this.id)
+                    .name(this.name)
+                    .cpf(this.cpf)
+                    .email(this.email)
+                    .phone(this.phone)
+                    .address(addressSortedDesc)
+                    .build();
     }
 
     public static Builder builder() {
