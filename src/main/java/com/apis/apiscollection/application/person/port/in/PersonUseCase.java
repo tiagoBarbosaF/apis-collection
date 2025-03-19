@@ -2,7 +2,7 @@ package com.apis.apiscollection.application.person.port.in;
 
 import com.apis.apiscollection.application.address.dto.AddressRequest;
 import com.apis.apiscollection.application.address.dto.AddressResponse;
-import com.apis.apiscollection.application.person.dto.MessageResponse;
+import com.apis.apiscollection.application.dto.MessageResponse;
 import com.apis.apiscollection.application.person.dto.PersonRequest;
 import com.apis.apiscollection.application.person.dto.PersonResponse;
 import org.springframework.data.domain.Page;
