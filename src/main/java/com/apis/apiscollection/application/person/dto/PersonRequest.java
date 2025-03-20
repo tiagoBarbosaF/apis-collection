@@ -1,13 +1,10 @@
 package com.apis.apiscollection.application.person.dto;
 
-import com.apis.apiscollection.domain.address.Address;
-
 public record PersonRequest(
         String name,
         String cpf,
         String email,
-        String phone,
-        Address address
+        String phone
 ) {
     public String getCpf() {
         return cpf;
@@ -25,10 +22,6 @@ public record PersonRequest(
         return phone;
     }
 
-    public Address getAddress() {
-        return address;
-    }
-
     public static Builder builder() {
         return new Builder();
     }
@@ -38,7 +31,6 @@ public record PersonRequest(
         private String name;
         private String email;
         private String phone;
-        private Address address;
 
         public Builder() {
         }
@@ -63,18 +55,12 @@ public record PersonRequest(
             return this;
         }
 
-        public Builder address(Address val) {
-            address = val;
-            return this;
-        }
-
         public PersonRequest build() {
             return new PersonRequest(
                     this.name,
                     this.cpf,
                     this.email,
-                    this.phone,
-                    this.address
+                    this.phone
             );
         }
     }

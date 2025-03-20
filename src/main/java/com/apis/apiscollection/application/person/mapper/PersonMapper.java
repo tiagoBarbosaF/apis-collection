@@ -7,9 +7,6 @@ import com.apis.apiscollection.application.person.dto.PersonResponse;
 import com.apis.apiscollection.domain.address.Address;
 import com.apis.apiscollection.domain.person.Person;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PersonMapper {
     public static PersonResponse convertDomainToResponse(Person person) {
         return PersonResponse.builder()
@@ -23,15 +20,11 @@ public class PersonMapper {
     }
 
     public static Person convertRequestToDomain(PersonRequest request) {
-        List<Address> addresses = new ArrayList<>();
-        addresses.add(request.getAddress());
-
         return Person.builder()
                 .name(request.getName())
                 .cpf(request.getCpf())
                 .email(request.getEmail())
                 .phone(request.getPhone())
-                .address(addresses)
                 .build();
     }
 
@@ -46,7 +39,6 @@ public class PersonMapper {
                 .state(address.getState())
                 .postalCode(address.getPostalCode())
                 .country(address.getCountry())
-                .createdAt(address.getCreatedAt())
                 .build();
     }
 
@@ -60,7 +52,6 @@ public class PersonMapper {
                 .state(request.state())
                 .postalCode(request.postalCode())
                 .country(request.country())
-                .createdAt(request.createdAt())
                 .build();
     }
 }

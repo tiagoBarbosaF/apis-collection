@@ -7,15 +7,17 @@ import com.apis.apiscollection.application.person.dto.PersonRequest;
 import com.apis.apiscollection.application.person.dto.PersonResponse;
 import org.springframework.data.domain.Page;
 
+import java.util.UUID;
+
 public interface PersonUseCase {
     MessageResponse createPerson(PersonRequest request);
-    MessageResponse updatePerson(Long id, PersonRequest request);
-    void deletePerson(Long id);
-    PersonResponse findPersonById(Long id);
+    MessageResponse updatePerson(UUID id, PersonRequest request);
+    void deletePerson(UUID id);
+    PersonResponse findPersonById(UUID id);
     Page<PersonResponse> findAllPersons(int page, int pageSize);
 
-    AddressResponse findAddressById(Long personId, Long addressId);
-    MessageResponse addNewPersonAddress(Long personId, AddressRequest addressRequest);
-    MessageResponse updatePersonAddress(Long personId, Long addressId, AddressRequest addressRequest);
-    void deletePersonAddress(Long addressId, Long personId);
+    AddressResponse findAddressById(UUID personId, UUID addressId);
+    MessageResponse addNewPersonAddress(UUID personId, AddressRequest addressRequest);
+    MessageResponse updatePersonAddress(UUID personId, UUID addressId, AddressRequest addressRequest);
+    void deletePersonAddress(UUID addressId, UUID personId);
 }

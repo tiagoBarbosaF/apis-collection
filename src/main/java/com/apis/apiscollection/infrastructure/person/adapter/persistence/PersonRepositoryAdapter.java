@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 class PersonRepositoryAdapter implements PersonRepositoryPort {
@@ -36,12 +37,12 @@ class PersonRepositoryAdapter implements PersonRepositoryPort {
 
     @Transactional
     @Override
-    public void deletePerson(Long id) {
+    public void deletePerson(UUID id) {
         personRepository.deleteById(id);
     }
 
     @Override
-    public Person findPersonById(Long id) {
+    public Person findPersonById(UUID id) {
         Optional<PersonEntity> personById = personRepository.findById(id);
         return personById.map(personEntityMapper::toDomain).orElse(null);
     }
@@ -53,7 +54,7 @@ class PersonRepositoryAdapter implements PersonRepositoryPort {
     }
 
     @Override
-    public Address findAddressById(Long personId, Long addressId) {
+    public Address findAddressById(UUID personId, UUID addressId) {
         return addressRepository.findByIdAndPersonId(addressId, personId)
                 .map(AddressEntityMapper::entityToDomain)
                 .orElseThrow(() -> new RuntimeException("Address not found."));
@@ -61,7 +62,7 @@ class PersonRepositoryAdapter implements PersonRepositoryPort {
 
     @Transactional
     @Override
-    public void deletePersonAddressById(Long addressId, Long personId) {
+    public void deletePersonAddressById(UUID addressId, UUID personId) {
         addressRepository.deleteByIdAndPersonId(addressId, personId);
     }
 }

@@ -1,6 +1,7 @@
 package com.apis.apiscollection.infrastructure.person.adapter.persistence;
 
 import com.apis.apiscollection.infrastructure.address.adapter.persistence.AddressEntity;
+import com.github.f4b6a3.uuid.UuidCreator;
 import jakarta.persistence.*;
 
 import java.util.*;
@@ -9,8 +10,7 @@ import java.util.*;
 @Table(name = "person")
 public class PersonEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
     @Column(name = "name")
     private String name;
@@ -39,7 +39,12 @@ public class PersonEntity {
         addresses = builder.addresses;
     }
 
-    public Long getId() {
+    @PrePersist
+    protected void prePersist() {
+        if (id == null) id = UuidCreator.getTimeOrderedEpoch();
+    }
+
+    public UUID getId() {
         return id;
     }
 
@@ -68,7 +73,7 @@ public class PersonEntity {
     }
 
     public static final class Builder {
-        private Long id;
+        private UUID id;
         private String cpf;
         private String name;
         private String email;
@@ -78,7 +83,7 @@ public class PersonEntity {
         public Builder() {
         }
 
-        public Builder id(Long val) {
+        public Builder id(UUID val) {
             id = val;
             return this;
         }

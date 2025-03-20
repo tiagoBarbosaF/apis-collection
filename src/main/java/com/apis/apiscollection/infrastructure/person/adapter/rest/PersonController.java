@@ -18,6 +18,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/person")
 @Tag(name = "Person", description = "Manages people-related operations")
@@ -47,13 +49,14 @@ public class PersonController {
     @Operation(summary = "Update person", description = "Update a person using id and new information.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageResponse.class))),
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = MessageResponse.class))),
             @ApiResponse(responseCode = "400", description = "Invalid request body or id.",
                     content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "500", description = "Internal server error.",
                     content = @Content(mediaType = "application/json")),
     })
-    public ResponseEntity<MessageResponse> update(@RequestParam Long id,
+    public ResponseEntity<MessageResponse> update(@RequestParam UUID id,
                                                   @RequestBody @Valid PersonRequest request) {
         MessageResponse response = personUseCase.updatePerson(id, request);
         return response != null
@@ -65,13 +68,14 @@ public class PersonController {
     @Operation(summary = "Get a person by ID", description = "Find a person using the ID reference.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonResponse.class))),
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PersonResponse.class))),
             @ApiResponse(responseCode = "400", description = "Invalid ID",
                     content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content(mediaType = "application/json"))
     })
-    public ResponseEntity<PersonResponse> getPerson(@RequestParam long id) {
+    public ResponseEntity<PersonResponse> getPerson(@RequestParam UUID id) {
         PersonResponse response = personUseCase.findPersonById(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -80,7 +84,8 @@ public class PersonController {
     @Operation(summary = "List all persons", description = "List all person, paginated.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonResponse.class))),
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PersonResponse.class))),
             @ApiResponse(responseCode = "404", description = "Not found",
                     content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "500", description = "Internal server error",
@@ -104,7 +109,7 @@ public class PersonController {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content(mediaType = "application/json")),
     })
-    public ResponseEntity<Void> deletePerson(@RequestParam long id) {
+    public ResponseEntity<Void> deletePerson(@RequestParam UUID id) {
         personUseCase.deletePerson(id);
         return ResponseEntity.noContent().build();
     }
@@ -120,8 +125,8 @@ public class PersonController {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content(mediaType = "application/json"))
     })
-    public ResponseEntity<AddressResponse> getAddressById(@RequestParam(name = "person_id") long person_id,
-                                                          @RequestParam(name = "address_id") long address_id) {
+    public ResponseEntity<AddressResponse> getAddressById(@RequestParam(name = "person_id") UUID person_id,
+                                                          @RequestParam(name = "address_id") UUID address_id) {
         AddressResponse response = personUseCase.findAddressById(person_id, address_id);
         return response != null
                 ? ResponseEntity.status(HttpStatus.OK).body(response)
@@ -132,13 +137,14 @@ public class PersonController {
     @Operation(summary = "Add a new person address", description = "Add a new a person address using id and new information.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageResponse.class))),
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = MessageResponse.class))),
             @ApiResponse(responseCode = "400", description = "Invalid request body or id.",
                     content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "500", description = "Internal server error.",
                     content = @Content(mediaType = "application/json")),
     })
-    public ResponseEntity<MessageResponse> addNewPersonAddress(@RequestParam(name = "person_id") Long person_id,
+    public ResponseEntity<MessageResponse> addNewPersonAddress(@RequestParam(name = "person_id") UUID person_id,
                                                                @RequestBody @Valid AddressRequest request) {
         MessageResponse response = personUseCase.addNewPersonAddress(person_id, request);
         return response != null
@@ -156,8 +162,8 @@ public class PersonController {
             @ApiResponse(responseCode = "500", description = "Internal server error.",
                     content = @Content(mediaType = "application/json")),
     })
-    public ResponseEntity<MessageResponse> updatePersonAddress(@RequestParam(name = "person_id") Long person_id,
-                                                               @RequestParam(name = "address_id") Long address_id,
+    public ResponseEntity<MessageResponse> updatePersonAddress(@RequestParam(name = "person_id") UUID person_id,
+                                                               @RequestParam(name = "address_id") UUID address_id,
                                                                @RequestBody @Valid AddressRequest request) {
         MessageResponse response = personUseCase.updatePersonAddress(person_id, address_id, request);
         return response != null
@@ -175,8 +181,8 @@ public class PersonController {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content(mediaType = "application/json")),
     })
-    public ResponseEntity<Void> deletePersonAddress(@RequestParam(name = "address_id") Long address_id,
-                                                    @RequestParam(name = "person_id") Long person_id) {
+    public ResponseEntity<Void> deletePersonAddress(@RequestParam(name = "address_id") UUID address_id,
+                                                    @RequestParam(name = "person_id") UUID person_id) {
         personUseCase.deletePersonAddress(address_id, person_id);
         return ResponseEntity.noContent().build();
     }

@@ -3,9 +3,10 @@ package com.apis.apiscollection.application.person.dto;
 import com.apis.apiscollection.domain.address.Address;
 
 import java.util.List;
+import java.util.UUID;
 
 public record PersonResponse(
-        long id,
+        UUID id,
         String name,
         String cpf,
         String email,
@@ -19,7 +20,7 @@ public record PersonResponse(
 
     public static final class Builder {
         private String cpf;
-        private long id;
+        private UUID id;
         private String name;
         private String email;
         private String phone;
@@ -33,7 +34,7 @@ public record PersonResponse(
             return this;
         }
 
-        public Builder id(long val) {
+        public Builder id(UUID val) {
             id = val;
             return this;
         }

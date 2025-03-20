@@ -1,7 +1,5 @@
 package com.apis.apiscollection.application.address.dto;
 
-import java.time.Instant;
-
 public record AddressRequest(
         String street,
         String number,
@@ -10,8 +8,7 @@ public record AddressRequest(
         String city,
         String state,
         String postalCode,
-        String country,
-        Instant createdAt
+        String country
 ) {
 
     public static Builder builder() {
@@ -27,7 +24,6 @@ public record AddressRequest(
         private String state;
         private String postalCode;
         private String country;
-        private Instant createdAt;
 
         public Builder() {
         }
@@ -72,11 +68,6 @@ public record AddressRequest(
             return this;
         }
 
-        public Builder createdAt(Instant val) {
-            createdAt = val;
-            return this;
-        }
-
         public AddressRequest build() {
             return new AddressRequest(
                     this.street,
@@ -86,8 +77,7 @@ public record AddressRequest(
                     this.city,
                     this.state,
                     this.postalCode,
-                    this.country,
-                    this.createdAt
+                    this.country
             );
         }
     }

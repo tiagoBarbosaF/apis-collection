@@ -15,7 +15,6 @@ public class AddressMapper {
                 .state(address.getState())
                 .postalCode(address.getPostalCode())
                 .country(address.getCountry())
-                .createdAt(address.getCreatedAt())
                 .build();
     }
 
@@ -30,7 +29,6 @@ public class AddressMapper {
                 .state(response.state())
                 .postalCode(response.postalCode())
                 .country(response.country())
-                .createdAt(response.createdAt())
                 .build();
     }
 }

@@ -2,8 +2,6 @@ package com.apis.apiscollection.infrastructure.address.adapter.persistence;
 
 import com.apis.apiscollection.domain.address.Address;
 
-import java.time.Instant;
-
 public class AddressEntityMapper {
     public static AddressEntity domainToEntity(Address address) {
         if (address == null) return null;
@@ -18,7 +16,6 @@ public class AddressEntityMapper {
                 .state(address.getState())
                 .postalCode(address.getPostalCode())
                 .country(address.getCountry())
-                .createdAt(address.getCreatedAt() != null ? address.getCreatedAt() : Instant.now())
                 .build();
     }
 
@@ -35,7 +32,6 @@ public class AddressEntityMapper {
                 .state(entity.getState())
                 .postalCode(entity.getPostalCode())
                 .country(entity.getCountry())
-                .createdAt(entity.getCreatedAt())
                 .build();
     }
 }

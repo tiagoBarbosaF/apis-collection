@@ -4,12 +4,14 @@ import com.apis.apiscollection.domain.address.Address;
 import com.apis.apiscollection.domain.person.Person;
 import org.springframework.data.domain.Page;
 
+import java.util.UUID;
+
 public interface PersonRepositoryPort {
     void savePerson(Person person);
-    void deletePerson(Long id);
-    Person findPersonById (Long id);
+    void deletePerson(UUID id);
+    Person findPersonById (UUID id);
     Page<Person> findAllPersons(int page, int pageSize);
 
-    Address findAddressById(Long personId, Long addressId);
-    void deletePersonAddressById(Long addressId, Long personId);
+    Address findAddressById(UUID personId, UUID addressId);
+    void deletePersonAddressById(UUID addressId, UUID personId);
 }

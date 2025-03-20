@@ -1,9 +1,9 @@
 package com.apis.apiscollection.domain.address;
 
-import java.time.Instant;
+import java.util.UUID;
 
 public class Address {
-    private Long id;
+    private UUID id;
     private String street;
     private String number;
     private String complement;
@@ -12,7 +12,6 @@ public class Address {
     private String state;
     private String postalCode;
     private String country;
-    private Instant createdAt;
 
     protected Address() {
     }
@@ -27,7 +26,6 @@ public class Address {
         state = builder.state;
         postalCode = builder.postalCode;
         country = builder.country;
-        createdAt = builder.createdAt;
     }
 
     public String getCity() {
@@ -42,7 +40,7 @@ public class Address {
         return country;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -66,10 +64,6 @@ public class Address {
         return street;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
     public Address updateAddress(Address newAddress) {
         if (newAddress == null) throw new IllegalArgumentException("New address cannot be null");
 
@@ -77,15 +71,14 @@ public class Address {
 
         return Address.builder()
                 .id(this.id)
-                .street(newAddress.getStreet())
-                .number(newAddress.getNumber())
-                .complement(newAddress.getComplement())
-                .neighborhood(newAddress.getNeighborhood())
-                .city(newAddress.getCity())
-                .state(newAddress.getState())
-                .postalCode(newAddress.getPostalCode())
-                .country(newAddress.getCountry())
-                .createdAt(this.createdAt)
+                .street(newAddress.getStreet() == null ? this.street : newAddress.getStreet())
+                .number(newAddress.getNumber() == null ? this.number : newAddress.getNumber())
+                .complement(newAddress.getComplement() == null ? this.complement : newAddress.getComplement())
+                .neighborhood(newAddress.getNeighborhood() == null ? this.neighborhood : newAddress.getNeighborhood())
+                .city(newAddress.getCity() == null ? this.city : newAddress.getCity())
+                .state(newAddress.getState() == null ? this.state : newAddress.getState())
+                .postalCode(newAddress.getPostalCode() == null ? this.postalCode : newAddress.getPostalCode())
+                .country(newAddress.getCountry() == null ? this.country : newAddress.getCountry())
                 .build();
     }
 
@@ -95,7 +88,7 @@ public class Address {
 
     public static final class Builder {
         private String city;
-        private Long id;
+        private UUID id;
         private String street;
         private String number;
         private String complement;
@@ -103,7 +96,6 @@ public class Address {
         private String state;
         private String postalCode;
         private String country;
-        private Instant createdAt;
 
         public Builder() {
         }
@@ -113,7 +105,7 @@ public class Address {
             return this;
         }
 
-        public Builder id(Long val) {
+        public Builder id(UUID val) {
             id = val;
             return this;
         }
@@ -150,11 +142,6 @@ public class Address {
 
         public Builder country(String val) {
             country = val;
-            return this;
-        }
-
-        public Builder createdAt(Instant val) {
-            createdAt = val;
             return this;
         }
 

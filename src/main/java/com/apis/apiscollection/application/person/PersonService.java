@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,7 +35,7 @@ public class PersonService implements PersonUseCase {
     }
 
     @Override
-    public MessageResponse updatePerson(Long id, PersonRequest request) {
+    public MessageResponse updatePerson(UUID id, PersonRequest request) {
         Person personFind = personRepositoryPort.findPersonById(id);
         Person requestConverted = PersonMapper.convertRequestToDomain(request);
         Person person = personFind.updatePerson(requestConverted);
@@ -44,12 +45,12 @@ public class PersonService implements PersonUseCase {
     }
 
     @Override
-    public void deletePerson(Long id) {
+    public void deletePerson(UUID id) {
         personRepositoryPort.deletePerson(id);
     }
 
     @Override
-    public PersonResponse findPersonById(Long id) {
+    public PersonResponse findPersonById(UUID id) {
         Person personById = personRepositoryPort.findPersonById(id);
         Person personUpdated = personById.sortedAddressDesc(personById.getAddress());
         return PersonMapper.convertDomainToResponse(personUpdated);
@@ -63,13 +64,13 @@ public class PersonService implements PersonUseCase {
     }
 
     @Override
-    public AddressResponse findAddressById(Long personId, Long addressId) {
+    public AddressResponse findAddressById(UUID personId, UUID addressId) {
         Address addressById = getPersonAddressById(personId, addressId);
         return AddressMapper.convertDomainToResponse(addressById);
     }
 
     @Override
-    public MessageResponse addNewPersonAddress(Long personId, AddressRequest addressRequest) {
+    public MessageResponse addNewPersonAddress(UUID personId, AddressRequest addressRequest) {
         Person personById = personRepositoryPort.findPersonById(personId);
         Address addressConverted = PersonMapper.convertRequestToAddress(addressRequest);
         Person personUpdated = personById.addAddress(addressConverted);
@@ -79,7 +80,7 @@ public class PersonService implements PersonUseCase {
     }
 
     @Override
-    public MessageResponse updatePersonAddress(Long personId, Long addressId, AddressRequest addressRequest) {
+    public MessageResponse updatePersonAddress(UUID personId, UUID addressId, AddressRequest addressRequest) {
         Person personFind = personRepositoryPort.findPersonById(personId);
         Address addressToUpdate = PersonMapper.convertRequestToAddress(addressRequest);
         List<Address> addressList = personFind.getAddress().stream()
@@ -91,11 +92,11 @@ public class PersonService implements PersonUseCase {
     }
 
     @Override
-    public void deletePersonAddress(Long addressId, Long personId) {
+    public void deletePersonAddress(UUID addressId, UUID personId) {
         personRepositoryPort.deletePersonAddressById(addressId, personId);
     }
 
-    private Address getPersonAddressById(Long personId, Long addressId) {
+    private Address getPersonAddressById(UUID personId, UUID addressId) {
         return personRepositoryPort.findAddressById(personId, addressId);
     }
 }

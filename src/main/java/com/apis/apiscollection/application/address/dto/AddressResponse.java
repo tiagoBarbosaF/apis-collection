@@ -1,9 +1,9 @@
 package com.apis.apiscollection.application.address.dto;
 
-import java.time.Instant;
+import java.util.UUID;
 
 public record AddressResponse(
-        Long id,
+        UUID id,
         String street,
         String number,
         String complement,
@@ -11,8 +11,7 @@ public record AddressResponse(
         String city,
         String state,
         String postalCode,
-        String country,
-        Instant createdAt
+        String country
 ) {
 
     public static Builder builder() {
@@ -20,7 +19,7 @@ public record AddressResponse(
     }
 
     public static final class Builder {
-        private Long id;
+        private UUID id;
         private String street;
         private String number;
         private String complement;
@@ -29,12 +28,11 @@ public record AddressResponse(
         private String state;
         private String postalCode;
         private String country;
-        private Instant createdAt;
 
         public Builder() {
         }
 
-        public Builder id(Long val) {
+        public Builder id(UUID val) {
             id = val;
             return this;
         }
@@ -79,11 +77,6 @@ public record AddressResponse(
             return this;
         }
 
-        public Builder createdAt(Instant val) {
-            createdAt = val;
-            return this;
-        }
-
         public AddressResponse build() {
             return new AddressResponse(
                     this.id,
@@ -94,8 +87,7 @@ public record AddressResponse(
                     this.city,
                     this.state,
                     this.postalCode,
-                    this.country,
-                    this.createdAt
+                    this.country
             );
         }
     }

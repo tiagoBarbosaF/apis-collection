@@ -5,9 +5,10 @@ import com.apis.apiscollection.domain.address.Address;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 public class Person {
-    private final Long id;
+    private final UUID id;
     private final String name;
     private final String cpf;
     private final String email;
@@ -31,7 +32,7 @@ public class Person {
         return email;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -50,11 +51,11 @@ public class Person {
     public Person updatePerson(Person person) {
         return Person.builder()
                 .id(this.id)
-                .name(person.getName())
-                .cpf(person.getCpf())
-                .email(person.getEmail())
-                .phone(person.getPhone())
-                .address(person.getAddress())
+                .name(person.getName() == null ? this.name : person.getName())
+                .cpf(person.getCpf() == null ? this.cpf : person.getCpf())
+                .email(person.getEmail() == null ? this.email : person.getEmail())
+                .phone(person.getPhone() == null ? this.phone : person.getPhone())
+                .address(this.address)
                 .build();
     }
 
@@ -86,7 +87,7 @@ public class Person {
 
     public Person sortedAddressDesc(List<Address> addressesSorted) {
             List<Address> addressSortedDesc = addressesSorted.stream()
-                    .sorted(Comparator.comparing(Address::getCreatedAt).reversed())
+                    .sorted(Comparator.comparing(Address::getId).reversed())
                     .toList();
             return Person.builder()
                     .id(this.id)
@@ -104,7 +105,7 @@ public class Person {
 
     public static final class Builder {
         private String cpf;
-        private Long id;
+        private UUID id;
         private String name;
         private String email;
         private String phone;
@@ -118,7 +119,7 @@ public class Person {
             return this;
         }
 
-        public Builder id(Long val) {
+        public Builder id(UUID val) {
             id = val;
             return this;
         }

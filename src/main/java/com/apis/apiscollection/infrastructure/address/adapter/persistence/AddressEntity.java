@@ -1,16 +1,16 @@
 package com.apis.apiscollection.infrastructure.address.adapter.persistence;
 
 import com.apis.apiscollection.infrastructure.person.adapter.persistence.PersonEntity;
+import com.github.f4b6a3.uuid.UuidCreator;
 import jakarta.persistence.*;
 
-import java.time.Instant;
+import java.util.UUID;
 
 @Entity
 @Table(name = "address")
 public class AddressEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
     private String street;
     private String number;
     private String complement;
@@ -19,8 +19,6 @@ public class AddressEntity {
     private String state;
     private String postalCode;
     private String country;
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private Instant createdAt = Instant.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_person_id", nullable = false)
@@ -47,10 +45,14 @@ public class AddressEntity {
         state = builder.state;
         postalCode = builder.postalCode;
         country = builder.country;
-        createdAt = Instant.now();
     }
 
-    public Long getId() {
+    @PrePersist
+    protected void prePersist() {
+        if (id == null) id = UuidCreator.getTimeOrderedEpoch();
+    }
+
+    public UUID getId() {
         return id;
     }
 
@@ -86,16 +88,12 @@ public class AddressEntity {
         return country;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
     public static Builder builder() {
         return new Builder();
     }
 
     public static final class Builder {
-        private Long id;
+        private UUID id;
         private String street;
         private String number;
         private String complement;
@@ -104,12 +102,11 @@ public class AddressEntity {
         private String state;
         private String postalCode;
         private String country;
-        private Instant createdAt;
 
         public Builder() {
         }
 
-        public Builder id(Long val) {
+        public Builder id(UUID val) {
             id = val;
             return this;
         }
@@ -151,11 +148,6 @@ public class AddressEntity {
 
         public Builder country(String val) {
             country = val;
-            return this;
-        }
-
-        public Builder createdAt(Instant val) {
-            createdAt = val;
             return this;
         }
 
