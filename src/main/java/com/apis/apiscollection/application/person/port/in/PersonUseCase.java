@@ -17,6 +17,7 @@ public interface PersonUseCase {
     Page<PersonResponse> findAllPersons(int page, int pageSize);
 
     AddressResponse findAddressById(UUID personId, UUID addressId);
+    Page<AddressResponse> findAllPersonAddress(UUID personId, int page, int pageSize);
     MessageResponse addNewPersonAddress(UUID personId, AddressRequest addressRequest);
     MessageResponse updatePersonAddress(UUID personId, UUID addressId, AddressRequest addressRequest);
     void deletePersonAddress(UUID addressId, UUID personId);

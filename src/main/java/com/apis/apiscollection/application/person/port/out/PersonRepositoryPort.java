@@ -13,5 +13,6 @@ public interface PersonRepositoryPort {
     Page<Person> findAllPersons(int page, int pageSize);
 
     Address findAddressById(UUID personId, UUID addressId);
+    Page<Address> findAllPersonAddress(UUID personId, int page, int pageSize);
     void deletePersonAddressById(UUID addressId, UUID personId);
 }

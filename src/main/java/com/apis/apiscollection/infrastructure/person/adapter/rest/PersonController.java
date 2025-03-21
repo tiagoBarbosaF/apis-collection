@@ -133,6 +133,26 @@ public class PersonController {
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
+    @GetMapping("/address/list")
+    @Operation(summary = "List all person addresses", description = "List all person addresses, paginated.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PersonResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Not found",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = "application/json")),
+    })
+    public ResponseEntity<Page<AddressResponse>> findAllPersonAddress(@RequestParam(name = "person_id") UUID person_id,
+                                                                      @RequestParam(defaultValue = "0") int page,
+                                                                      @RequestParam(defaultValue = "10") int pageSize) {
+        Page<AddressResponse> response = personUseCase.findAllPersonAddress(person_id, page, pageSize);
+        return response != null
+                ? ResponseEntity.status(HttpStatus.OK).body(response)
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
+
     @PostMapping("/address")
     @Operation(summary = "Add a new person address", description = "Add a new a person address using id and new information.")
     @ApiResponses(value = {

@@ -1,5 +1,6 @@
 package com.apis.apiscollection.application.address.mapper;
 
+import com.apis.apiscollection.application.address.dto.AddressRequest;
 import com.apis.apiscollection.application.address.dto.AddressResponse;
 import com.apis.apiscollection.domain.address.Address;
 
@@ -18,17 +19,16 @@ public class AddressMapper {
                 .build();
     }
 
-    public static Address convertRequestToDomain(AddressResponse response) {
+    public static Address convertRequestToDomain(AddressRequest request) {
         return Address.builder()
-                .id(response.id())
-                .street(response.street())
-                .number(response.number())
-                .complement(response.complement())
-                .neighborhood(response.neighborhood())
-                .city(response.city())
-                .state(response.state())
-                .postalCode(response.postalCode())
-                .country(response.country())
+                .street(request.street())
+                .number(request.number())
+                .complement(request.complement())
+                .neighborhood(request.neighborhood())
+                .city(request.city())
+                .state(request.state())
+                .postalCode(request.postalCode())
+                .country(request.country())
                 .build();
     }
 }

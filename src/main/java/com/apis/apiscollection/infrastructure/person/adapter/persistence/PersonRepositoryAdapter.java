@@ -60,6 +60,12 @@ class PersonRepositoryAdapter implements PersonRepositoryPort {
                 .orElseThrow(() -> new RuntimeException("Address not found."));
     }
 
+    @Override
+    public Page<Address> findAllPersonAddress(UUID personId, int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return addressRepository.findAllPersonAddresses(personId, pageable).map(AddressEntityMapper::entityToDomain);
+    }
+
     @Transactional
     @Override
     public void deletePersonAddressById(UUID addressId, UUID personId) {

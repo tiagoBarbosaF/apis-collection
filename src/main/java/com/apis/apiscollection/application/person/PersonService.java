@@ -70,9 +70,15 @@ public class PersonService implements PersonUseCase {
     }
 
     @Override
+    public Page<AddressResponse> findAllPersonAddress(UUID personId, int page, int pageSize) {
+        Page<Address> allPersonAddress = personRepositoryPort.findAllPersonAddress(personId, page, pageSize);
+        return allPersonAddress.map(AddressMapper::convertDomainToResponse);
+    }
+
+    @Override
     public MessageResponse addNewPersonAddress(UUID personId, AddressRequest addressRequest) {
         Person personById = personRepositoryPort.findPersonById(personId);
-        Address addressConverted = PersonMapper.convertRequestToAddress(addressRequest);
+        Address addressConverted = AddressMapper.convertRequestToDomain(addressRequest);
         Person personUpdated = personById.addAddress(addressConverted);
         personRepositoryPort.savePerson(personUpdated);
 
@@ -82,7 +88,7 @@ public class PersonService implements PersonUseCase {
     @Override
     public MessageResponse updatePersonAddress(UUID personId, UUID addressId, AddressRequest addressRequest) {
         Person personFind = personRepositoryPort.findPersonById(personId);
-        Address addressToUpdate = PersonMapper.convertRequestToAddress(addressRequest);
+        Address addressToUpdate = AddressMapper.convertRequestToDomain(addressRequest);
         List<Address> addressList = personFind.getAddress().stream()
                 .map(addr -> addr.getId().equals(addressId) ? addr.updateAddress(addressToUpdate) : addr).collect(Collectors.toList());
 
