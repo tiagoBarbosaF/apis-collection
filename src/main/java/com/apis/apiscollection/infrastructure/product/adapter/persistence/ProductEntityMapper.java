@@ -23,6 +23,7 @@ public class ProductEntityMapper {
 
     public static Product toDomain(ProductEntity entity) {
         return Product.builder()
+                .id(entity.getId())
                 .name(entity.getName())
                 .description(entity.getDescription())
                 .price(entity.getPrice())

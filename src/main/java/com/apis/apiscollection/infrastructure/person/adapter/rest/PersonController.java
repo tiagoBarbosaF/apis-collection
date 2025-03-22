@@ -3,7 +3,8 @@ package com.apis.apiscollection.infrastructure.person.adapter.rest;
 import com.apis.apiscollection.application.address.dto.AddressRequest;
 import com.apis.apiscollection.application.address.dto.AddressResponse;
 import com.apis.apiscollection.application.dto.MessageResponse;
-import com.apis.apiscollection.application.person.dto.PersonRequest;
+import com.apis.apiscollection.application.person.dto.PersonRequestCreate;
+import com.apis.apiscollection.application.person.dto.PersonRequestUpdate;
 import com.apis.apiscollection.application.person.dto.PersonResponse;
 import com.apis.apiscollection.application.person.port.in.PersonUseCase;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,7 +41,7 @@ public class PersonController {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content(mediaType = "application/json"))
     })
-    public ResponseEntity<MessageResponse> create(@RequestBody @Valid PersonRequest request) {
+    public ResponseEntity<MessageResponse> create(@RequestBody @Valid PersonRequestCreate request) {
         MessageResponse response = personUseCase.createPerson(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -57,7 +58,7 @@ public class PersonController {
                     content = @Content(mediaType = "application/json")),
     })
     public ResponseEntity<MessageResponse> update(@RequestParam UUID id,
-                                                  @RequestBody @Valid PersonRequest request) {
+                                                  @RequestBody @Valid PersonRequestUpdate request) {
         MessageResponse response = personUseCase.updatePerson(id, request);
         return response != null
                 ? ResponseEntity.status(HttpStatus.NO_CONTENT).body(response)

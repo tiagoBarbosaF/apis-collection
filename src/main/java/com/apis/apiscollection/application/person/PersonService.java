@@ -4,7 +4,8 @@ import com.apis.apiscollection.application.address.dto.AddressRequest;
 import com.apis.apiscollection.application.address.dto.AddressResponse;
 import com.apis.apiscollection.application.address.mapper.AddressMapper;
 import com.apis.apiscollection.application.dto.MessageResponse;
-import com.apis.apiscollection.application.person.dto.PersonRequest;
+import com.apis.apiscollection.application.person.dto.PersonRequestCreate;
+import com.apis.apiscollection.application.person.dto.PersonRequestUpdate;
 import com.apis.apiscollection.application.person.dto.PersonResponse;
 import com.apis.apiscollection.application.person.mapper.PersonMapper;
 import com.apis.apiscollection.application.person.port.in.PersonUseCase;
@@ -27,17 +28,17 @@ public class PersonService implements PersonUseCase {
     }
 
     @Override
-    public MessageResponse createPerson(PersonRequest request) {
-        Person person = PersonMapper.convertRequestToDomain(request);
+    public MessageResponse createPerson(PersonRequestCreate request) {
+        Person person = PersonMapper.convertRequestCreateToDomain(request);
         personRepositoryPort.savePerson(person);
 
         return new MessageResponse("Person saved");
     }
 
     @Override
-    public MessageResponse updatePerson(UUID id, PersonRequest request) {
+    public MessageResponse updatePerson(UUID id, PersonRequestUpdate request) {
         Person personFind = personRepositoryPort.findPersonById(id);
-        Person requestConverted = PersonMapper.convertRequestToDomain(request);
+        Person requestConverted = PersonMapper.convertRequestUpdateToDomain(request);
         Person person = personFind.updatePerson(requestConverted);
 
         personRepositoryPort.savePerson(person);

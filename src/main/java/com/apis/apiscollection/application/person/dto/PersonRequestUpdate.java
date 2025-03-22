@@ -1,27 +1,11 @@
 package com.apis.apiscollection.application.person.dto;
 
-public record PersonRequest(
+public record PersonRequestUpdate(
         String name,
         String cpf,
         String email,
         String phone
 ) {
-    public String getCpf() {
-        return cpf;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
     public static Builder builder() {
         return new Builder();
     }
@@ -55,8 +39,8 @@ public record PersonRequest(
             return this;
         }
 
-        public PersonRequest build() {
-            return new PersonRequest(
+        public PersonRequestUpdate build() {
+            return new PersonRequestUpdate(
                     this.name,
                     this.cpf,
                     this.email,
