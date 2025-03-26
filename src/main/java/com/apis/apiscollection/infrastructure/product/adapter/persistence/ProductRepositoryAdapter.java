@@ -2,6 +2,8 @@ package com.apis.apiscollection.infrastructure.product.adapter.persistence;
 
 import com.apis.apiscollection.application.product.port.out.ProductRepositoryPort;
 import com.apis.apiscollection.domain.product.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,5 +34,11 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
     @Override
     public void deleteProduct(UUID id) {
         productRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<Product> findAllProducts(int page, int pageSize) {
+        PageRequest pageable = PageRequest.of(page, pageSize);
+        return productRepository.findAll(pageable).map(ProductEntityMapper::toDomain);
     }
 }

@@ -31,3 +31,16 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Ignorar pastas e arquivos do Gradle ###
+.gradle/
+build/
+out/
+
+### Gradle Wrapper (manter apenas os arquivos necessários) ###
+!gradle/wrapper/gradle-wrapper.properties
+!gradle/wrapper/gradle-wrapper.jar
+
+### Arquivos de logs e temporários ###
+*.log
+*.lock

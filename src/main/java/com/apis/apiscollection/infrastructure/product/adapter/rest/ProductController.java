@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -77,6 +78,25 @@ public class ProductController {
         MessageResponse response = productUseCase.deleteProduct(productId);
         return response != null
                 ? ResponseEntity.status(HttpStatus.NO_CONTENT).body(response)
+                : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    @GetMapping("/list")
+    @Operation(summary = "List all products", description = "List all products, paginated.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProductResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Not found",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = "application/json")),
+    })
+    public ResponseEntity<Page<ProductResponse>> findAllProducts(@RequestParam(defaultValue = "0") int page,
+                                                                 @RequestParam(defaultValue = "10") int pageSize) {
+        Page<ProductResponse> response = productUseCase.findAllProducts(page, pageSize);
+        return response != null
+                ? ResponseEntity.status(HttpStatus.OK).body(response)
                 : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 }

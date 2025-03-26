@@ -7,6 +7,7 @@ import com.apis.apiscollection.application.product.mapper.ProductMapper;
 import com.apis.apiscollection.application.product.port.in.ProductUseCase;
 import com.apis.apiscollection.application.product.port.out.ProductRepositoryPort;
 import com.apis.apiscollection.domain.product.Product;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -37,5 +38,11 @@ public class ProductService implements ProductUseCase {
     public MessageResponse deleteProduct(UUID id) {
         productRepositoryPort.deleteProduct(id);
         return new MessageResponse("Product deleted");
+    }
+
+    @Override
+    public Page<ProductResponse> findAllProducts(int page, int pageSize) {
+        Page<Product> allProducts = productRepositoryPort.findAllProducts(page, pageSize);
+        return allProducts.map(ProductMapper::mapDomainToResponse);
     }
 }

@@ -7,18 +7,18 @@ import com.apis.apiscollection.domain.product.Product;
 public class ProductMapper {
     public static Product mapRequestToDomain(ProductRequest request) {
         return Product.builder()
-                .name(request.name())
-                .description(request.description())
+                .name(request.name().isEmpty() ? null : request.name())
+                .description(request.description().isEmpty() ? null : request.description())
                 .price(request.price())
-                .sku(request.sku())
+                .sku(request.sku().isEmpty() ? null : request.sku())
                 .stockQuantity(request.stockQuantity())
                 .category(request.category())
-                .brand(request.brand())
+                .brand(request.brand().isEmpty() ? null : request.brand())
                 .weight(request.weight())
                 .height(request.height())
                 .width(request.width())
                 .length(request.length())
-                .imageUrl(request.imageUrl())
+                .imageUrl(request.imageUrl().isEmpty() ? null : request.imageUrl())
                 .active(request.active())
                 .build();
     }
