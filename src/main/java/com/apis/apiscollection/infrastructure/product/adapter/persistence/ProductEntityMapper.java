@@ -5,6 +5,7 @@ import com.apis.apiscollection.domain.product.Product;
 public class ProductEntityMapper {
     public static ProductEntity toEntity(Product product) {
         return ProductEntity.builder()
+                .id(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())
                 .price(product.getPrice())

@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface ProductRepositoryPort {
     Product findProductById(UUID id);
-    void createProduct(Product product);
+    void saveProduct(Product product);
     void deleteProduct(UUID id);
     Page<Product> findAllProducts(int page, int pageSize);
 }

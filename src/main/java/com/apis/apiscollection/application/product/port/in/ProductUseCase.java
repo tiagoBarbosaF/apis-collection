@@ -10,6 +10,7 @@ import java.util.UUID;
 public interface ProductUseCase {
     ProductResponse findProductById(UUID id);
     MessageResponse createProduct(ProductRequest request);
+    MessageResponse updateProduct(UUID id, ProductRequest request);
     MessageResponse deleteProduct(UUID id);
     Page<ProductResponse> findAllProducts(int page, int pageSize);
 }

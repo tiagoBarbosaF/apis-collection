@@ -29,9 +29,18 @@ public class ProductService implements ProductUseCase {
     @Override
     public MessageResponse createProduct(ProductRequest request) {
         Product product = ProductMapper.mapRequestToDomain(request);
-        productRepositoryPort.createProduct(product);
-
+        productRepositoryPort.saveProduct(product);
         return new MessageResponse("Product created");
+    }
+
+    @Override
+    public MessageResponse updateProduct(UUID id, ProductRequest request) {
+        Product productFind = productRepositoryPort.findProductById(id);
+        Product productToUpdate = ProductMapper.mapRequestToDomain(request);
+        Product product = productFind.updateProduct(productToUpdate);
+
+        productRepositoryPort.saveProduct(product);
+        return new MessageResponse("Product updated");
     }
 
     @Override

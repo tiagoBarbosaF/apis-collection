@@ -25,7 +25,7 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
 
     @Transactional
     @Override
-    public void createProduct(Product product) {
+    public void saveProduct(Product product) {
         ProductEntity entity = ProductEntityMapper.toEntity(product);
         productRepository.save(entity);
     }

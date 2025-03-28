@@ -94,6 +94,25 @@ public class Product {
         return active;
     }
 
+    public Product updateProduct(Product product) {
+        return Product.builder()
+                .id(this.id)
+                .name(product.getName() == null ? this.name : product.getName())
+                .description(product.getDescription() == null ? this.description : product.getDescription())
+                .price(product.price == null ? this.price : product.getPrice())
+                .sku(product.getSku() == null ? this.sku : product.getSku())
+                .stockQuantity(product.getStockQuantity())
+                .category(product.getCategory())
+                .brand(product.getBrand() == null ? this.brand : product.getBrand())
+                .weight(product.getWeight())
+                .height(product.getHeight())
+                .width(product.getWidth())
+                .length(product.getLength())
+                .imageUrl(product.getImageUrl() == null ? this.imageUrl : product.getImageUrl())
+                .active(product.isActive())
+                .build();
+    }
+
     public static Builder builder() {
         return new Builder();
     }

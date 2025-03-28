@@ -46,6 +46,25 @@ public class ProductController {
                 : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
+    @PutMapping
+    @Operation(summary = "Update product", description = "Update a product using id and new information.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = MessageResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request body or id.",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Internal server error.",
+                    content = @Content(mediaType = "application/json")),
+    })
+    public ResponseEntity<MessageResponse> updateProduct(@RequestParam(name = "product_id") UUID productId,
+                                                         @RequestBody @Valid ProductRequest request) {
+        MessageResponse response = productUseCase.updateProduct(productId, request);
+        return response != null
+                ? ResponseEntity.status(HttpStatus.NO_CONTENT).body(response)
+                : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
     @GetMapping("/id")
     @Operation(summary = "Get a product by ID", description = "Find a product using the ID reference.")
     @ApiResponses(value = {
