@@ -5,6 +5,7 @@ import com.apis.apiscollection.application.product.dto.ProductRequest;
 import com.apis.apiscollection.application.product.dto.ProductResponse;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface ProductUseCase {
@@ -13,4 +14,5 @@ public interface ProductUseCase {
     MessageResponse updateProduct(UUID id, ProductRequest request);
     MessageResponse deleteProduct(UUID id);
     Page<ProductResponse> findAllProducts(int page, int pageSize);
+    MessageResponse createListOfProducts(List<ProductRequest> productRequests);
 }

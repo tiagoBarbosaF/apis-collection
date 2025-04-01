@@ -10,6 +10,7 @@ import com.apis.apiscollection.domain.product.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -53,5 +54,12 @@ public class ProductService implements ProductUseCase {
     public Page<ProductResponse> findAllProducts(int page, int pageSize) {
         Page<Product> allProducts = productRepositoryPort.findAllProducts(page, pageSize);
         return allProducts.map(ProductMapper::mapDomainToResponse);
+    }
+
+    @Override
+    public MessageResponse createListOfProducts(List<ProductRequest> productRequests) {
+        List<Product> listProductsToSave = productRequests.stream().map(ProductMapper::mapRequestToDomain).toList();
+        productRepositoryPort.saveListOfProducts(listProductsToSave);
+        return new MessageResponse("List of Products created");
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RequestMapping("/api/product")
@@ -22,10 +23,12 @@ import java.util.UUID;
 public interface ProductApi {
 
     @PostMapping
-    @Operation(summary = "Create a new product", description = "Creates a new product and returns the create product message.")
+    @Operation(summary = "Create a new product", description = "Creates a new product and returns " +
+                                                               "the create product message.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Product created successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageResponse.class))),
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = MessageResponse.class))),
             @ApiResponse(responseCode = "400", description = "Invalid request body",
                     content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "500", description = "Internal server error",
@@ -85,4 +88,18 @@ public interface ProductApi {
     })
     ResponseEntity<Page<ProductResponse>> findAllProducts(@RequestParam(defaultValue = "0") int page,
                                                           @RequestParam(defaultValue = "10") int pageSize);
+
+    @PostMapping("/list")
+    @Operation(summary = "Create products by list", description = "Creates a list of products and returns the " +
+                                                                  "create product message.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Product created successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = MessageResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request body",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = "application/json"))
+    })
+    ResponseEntity<MessageResponse> createListProducts(@RequestBody List<@Valid ProductRequest> products);
 }

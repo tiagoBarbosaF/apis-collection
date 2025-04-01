@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -40,5 +41,11 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
     public Page<Product> findAllProducts(int page, int pageSize) {
         PageRequest pageable = PageRequest.of(page, pageSize);
         return productRepository.findAll(pageable).map(ProductEntityMapper::toDomain);
+    }
+
+    @Override
+    public void saveListOfProducts(List<Product> products) {
+        List<ProductEntity> listOfProductsEntity = products.stream().map(ProductEntityMapper::toEntity).toList();
+        productRepository.saveAll(listOfProductsEntity);
     }
 }
