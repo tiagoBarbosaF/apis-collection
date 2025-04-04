@@ -6,20 +6,22 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 public class Product {
-    private final UUID id;
-    private final String name;
-    private final String description;
-    private final BigDecimal price;
-    private final String sku;
-    private final int stockQuantity;
-    private final ProductCategory category;
-    private final String brand;
-    private final double weight;
-    private final double height;
-    private final double width;
-    private final double length;
-    private final String imageUrl;
-    private final boolean active;
+    private UUID id;
+    private String name;
+    private String description;
+    private BigDecimal price;
+    private String sku;
+    private int stockQuantity;
+    private ProductCategory category;
+    private String brand;
+    private double weight;
+    private double height;
+    private double width;
+    private double length;
+    private String imageUrl;
+    private boolean active;
+
+    protected Product() {}
 
     private Product(Builder builder) {
         id = builder.id;

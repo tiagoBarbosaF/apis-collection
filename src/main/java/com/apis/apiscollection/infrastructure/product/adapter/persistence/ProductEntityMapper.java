@@ -2,7 +2,7 @@ package com.apis.apiscollection.infrastructure.product.adapter.persistence;
 
 import com.apis.apiscollection.domain.product.Product;
 
-public class ProductEntityMapper {
+class ProductEntityMapper {
     public static ProductEntity toEntity(Product product) {
         return ProductEntity.builder()
                 .id(product.getId())

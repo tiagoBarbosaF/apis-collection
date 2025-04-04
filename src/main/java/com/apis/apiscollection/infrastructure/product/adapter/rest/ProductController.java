@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -64,6 +65,14 @@ public class ProductController implements ProductApi {
     @Override
     public ResponseEntity<MessageResponse> createListProducts(List<ProductRequest> products) {
         MessageResponse response = productUseCase.createListOfProducts(products);
+        return response != null
+                ? ResponseEntity.status(HttpStatus.CREATED).body(response)
+                : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    @Override
+    public ResponseEntity<MessageResponse> createListProductsByFile(MultipartFile file) {
+        MessageResponse response = productUseCase.createListOfProductsByFile(file);
         return response != null
                 ? ResponseEntity.status(HttpStatus.CREATED).body(response)
                 : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

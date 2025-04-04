@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
-public class ProductRepositoryAdapter implements ProductRepositoryPort {
+class ProductRepositoryAdapter implements ProductRepositoryPort {
     private final ProductRepository productRepository;
 
     public ProductRepositoryAdapter(ProductRepository productRepository) {

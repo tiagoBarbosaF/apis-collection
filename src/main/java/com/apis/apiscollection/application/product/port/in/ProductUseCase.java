@@ -4,6 +4,7 @@ import com.apis.apiscollection.application.dto.MessageResponse;
 import com.apis.apiscollection.application.product.dto.ProductRequest;
 import com.apis.apiscollection.application.product.dto.ProductResponse;
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,4 +16,5 @@ public interface ProductUseCase {
     MessageResponse deleteProduct(UUID id);
     Page<ProductResponse> findAllProducts(int page, int pageSize);
     MessageResponse createListOfProducts(List<ProductRequest> productRequests);
+    MessageResponse createListOfProductsByFile(MultipartFile file);
 }
