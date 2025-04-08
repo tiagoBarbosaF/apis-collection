@@ -1,5 +1,6 @@
 package com.apis.apiscollection.application.person;
 
+import com.apis.apiscollection.application.address.dto.AddressRequest;
 import com.apis.apiscollection.application.address.dto.AddressResponse;
 import com.apis.apiscollection.application.dto.MessageResponse;
 import com.apis.apiscollection.application.person.dto.PersonRequestCreate;
@@ -22,7 +23,8 @@ import org.springframework.data.domain.PageImpl;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -85,7 +87,7 @@ class PersonServiceTest {
         UUID uuidMock = UuidCreator.getTimeOrderedEpoch();
 
         //when
-        personRepositoryPort.deletePerson(uuidMock);
+        personService.deletePerson(uuidMock);
 
         //then
         //verify
@@ -159,5 +161,84 @@ class PersonServiceTest {
 
         //verify
         verify(personRepositoryPort, times(1)).findAddressById(personIdMock, addressIdMock);
+    }
+
+    @Test
+    void givenValidPersonIdAndPagination_whenFindAllPersonAddresses_thenReturnPersonAddresses() {
+        //given
+        UUID personIdMock = UuidCreator.getTimeOrderedEpoch();
+        int page = 0;
+        int pageSize = 10;
+        Address address = PersonRequestCreateFactory.buildValidAddress(UuidCreator.getTimeOrderedEpoch());
+        Page<Address> addressPage = new PageImpl<>(List.of(address));
+
+        when(personRepositoryPort.findAllPersonAddress(personIdMock, page, pageSize)).thenReturn(addressPage);
+        //when
+        Page<AddressResponse> response = personService.findAllPersonAddress(personIdMock, page, pageSize);
+
+        //then
+        assertNotNull(response);
+        assertEquals(1, response.getContent().size());
+
+        //verify
+        verify(personRepositoryPort, times(1)).findAllPersonAddress(personIdMock, page, pageSize);
+    }
+
+    @Test
+    void givenValidPersonIdAndAddressRequest_whenCreateNewPersonAddress_thenReturnMessageConfirmation() {
+        //given
+        UUID personIdMock = UuidCreator.getTimeOrderedEpoch();
+        PersonRequestCreate personRequestCreate = PersonRequestCreateFactory.buildValid();
+        Person person = PersonMapper.convertRequestCreateToDomain(personRequestCreate);
+        AddressRequest addressRequest = PersonRequestCreateFactory.buildValidAddressRequest();
+
+        //when
+        when(personRepositoryPort.findPersonById(personIdMock)).thenReturn(person);
+        MessageResponse response = personService.addNewPersonAddress(personIdMock, addressRequest);
+
+
+        //then
+        assertNotNull(response);
+        assertEquals("Person address added", response.message());
+
+        //verify
+        verify(personRepositoryPort, times(1)).findPersonById(personIdMock);
+        verify(personRepositoryPort, times(1)).savePerson(any());
+    }
+
+    @Test
+    void givenValidPersonIdAndAddressIdAndAddressRequest_whenUpdatePersonAddress_thenReturnMessageConfirmation() {
+        //given
+        UUID personIdMock = UuidCreator.getTimeOrderedEpoch();
+        UUID addressIdMock = UuidCreator.getTimeOrderedEpoch();
+        PersonRequestCreate personRequestCreate = PersonRequestCreateFactory.buildValid();
+        Person person = PersonMapper.convertRequestCreateToDomain(personRequestCreate);
+        AddressRequest addressRequest = PersonRequestCreateFactory.buildValidAddressRequest();
+
+        //when
+        when(personRepositoryPort.findPersonById(personIdMock)).thenReturn(person);
+        MessageResponse response = personService.updatePersonAddress(personIdMock, addressIdMock, addressRequest);
+
+        //then
+        assertNotNull(response);
+        assertEquals("Person address updated", response.message());
+
+        //verify
+        verify(personRepositoryPort, times(1)).findPersonById(personIdMock);
+        verify(personRepositoryPort, times(1)).savePerson(any());
+    }
+
+    @Test
+    void givenValidPersonIdAndAddressId_whenDeletePersonAddress_thenReturnNothing() {
+        //given
+        UUID personIdMock = UuidCreator.getTimeOrderedEpoch();
+        UUID addressIdMock = UuidCreator.getTimeOrderedEpoch();
+
+        //when
+        personService.deletePersonAddress(addressIdMock, personIdMock);
+
+        //then
+        //verify
+        verify(personRepositoryPort, times(1)).deletePersonAddressById(addressIdMock, personIdMock);
     }
 }

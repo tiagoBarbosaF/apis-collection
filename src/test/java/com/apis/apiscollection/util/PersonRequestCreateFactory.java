@@ -1,5 +1,6 @@
 package com.apis.apiscollection.util;
 
+import com.apis.apiscollection.application.address.dto.AddressRequest;
 import com.apis.apiscollection.application.person.dto.PersonRequestCreate;
 import com.apis.apiscollection.application.person.dto.PersonRequestUpdate;
 import com.apis.apiscollection.domain.address.Address;
@@ -41,6 +42,19 @@ public class PersonRequestCreateFactory {
     public static Address buildValidAddress(UUID addressId) {
         return Address.builder()
                 .id(addressId)
+                .street("Street Test")
+                .number("1010")
+                .complement("house")
+                .neighborhood("Test Nighborhood")
+                .city("Test City")
+                .state("CE")
+                .postalCode("60000001")
+                .country("Brazil")
+                .build();
+    }
+
+    public static AddressRequest buildValidAddressRequest() {
+        return AddressRequest.builder()
                 .street("Street Test")
                 .number("1010")
                 .complement("house")
