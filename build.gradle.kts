@@ -2,6 +2,7 @@ plugins {
     id("org.springframework.boot") version "3.4.3"
     id("io.spring.dependency-management") version "1.1.4"
     id("java")
+    jacoco
 }
 
 group = "com.apis"
@@ -26,8 +27,20 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("com.h2database:h2")
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    finalizedBy("jacocoTestReport")
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(true)
+    }
 }
