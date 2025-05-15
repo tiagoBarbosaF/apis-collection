@@ -1,0 +1,28 @@
+name: deploy-test.yml
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  deploy-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Build with gradle
+        run: ./gradlew build
+
+      - name: Simulating test deploy
+        run: echo "Deploy test simulating with successfully! ✅"
