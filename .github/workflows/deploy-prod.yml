@@ -34,6 +34,6 @@ jobs:
 
       - name: Upload jar artifact
         uses: actions/upload-artifact@v3.1.3
-        with: 
+        with:
           name: build-jar
           path: builds/libs/*.jar
